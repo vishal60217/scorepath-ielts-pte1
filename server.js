@@ -8,9 +8,9 @@ const path = require("path");
 const app = express();
 const PORT = process.env.PORT || 3000;
 const DATA_DIR = path.join(__dirname, "data");
-const DB_FILE = path.join(DATA_DIR, "db.json");
+const DB_FILE = process.env.VERCEL ? path.join("/tmp", "scorepath-db.json") : path.join(DATA_DIR, "db.json");
 
-fs.mkdirSync(DATA_DIR, { recursive: true });
+if (!process.env.VERCEL) { fs.mkdirSync(DATA_DIR, { recursive: true }); }
 
 const seed = {
   users: [],
@@ -176,4 +176,9 @@ app.post("/api/admin/class",requireAdmin,(req,res)=>{
 });
 
 app.get("*",(req,res)=>res.sendFile(path.join(__dirname,"public","index.html")));
-app.listen(PORT,()=>console.log(`ScorePath running on port ${PORT}`));
+
+module.exports = app;
+
+if (require.main === module) {
+  app.listen(PORT,()=>console.log(`ScorePath running on port ${PORT}`));
+}

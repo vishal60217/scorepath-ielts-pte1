@@ -44,3 +44,13 @@ The current admin API is prepared for an admin user. The initial admin credentia
 - Set a strong SESSION_SECRET and admin credentials
 - Run `npm start`
 - Open http://localhost:3000
+
+
+## Vercel deployment
+
+This project includes `api/index.js` and `vercel.json` for Vercel serverless deployment.
+Set these environment variables in Vercel if using payments:
+- `RAZORPAY_KEY_ID`
+- `RAZORPAY_KEY_SECRET`
+
+Important: Vercel serverless functions do not provide a persistent local database. The JSON database is therefore only suitable for demo/testing on Vercel. For production accounts, sessions, and subscriptions, connect a persistent database (for example PostgreSQL).
